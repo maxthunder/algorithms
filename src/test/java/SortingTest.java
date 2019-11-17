@@ -11,6 +11,9 @@ import java.util.stream.IntStream;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
+/**
+ * @author Maxwell Stark
+ */
 public class SortingTest {
 
     @Test
@@ -26,7 +29,7 @@ public class SortingTest {
         algorithmsWithResults.put(Sorting.Type.QUICK_SORT, quickSort(unsortedList));
 
         algorithmsWithResults.forEach((key, value) -> {
-            System.out.printf("%s sorted %,d integers in %,d ms.%n", key, runSize, value.runtime);
+            System.out.printf("%s sorted %,d integers in %,d ms.%n", key.getName(), runSize, value.runtime);
             assertThat("Quick sorted list did not match expected list.", value.resultList, is(expected));
         });
     }
@@ -51,5 +54,4 @@ public class SortingTest {
         final List<Integer> resultList;
         final long runtime;
     }
-    
 }

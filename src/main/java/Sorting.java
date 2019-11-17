@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author Maxwell Stark
+ */
 public class Sorting {
 
     public enum Type {
@@ -50,14 +53,4 @@ public class Sorting {
 
         return completedList;
     }
-
-    // if (1 item)
-    //      - return list (of item)
-    // if (2 items)
-    //      - sort items manually
-    //      - return list
-    // if (3+ item)
-    //      - quick sort
-    //      - return list of item
-
 }
