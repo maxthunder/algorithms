@@ -25,12 +25,14 @@ public class SortingTest {
         List<Integer> expected = new ArrayList<>(unsortedList);
         Collections.sort(expected);
 
-        Map<SortingAlgorithm, SortingResult> algorithmsWithResults = new HashMap<>();
+        Map<SortingAlgorithm, SortingResult> algorithmsWithResults = new LinkedHashMap<>();
         algorithmsWithResults.put(SortingAlgorithm.QUICK_SORT, quickSort(unsortedList));
-        algorithmsWithResults.put(SortingAlgorithm.MERGE_SORT_TOP_DOWN, mergeSort(unsortedList));
+        algorithmsWithResults.put(SortingAlgorithm.MERGE_SORT, mergeSort(unsortedList));
+        algorithmsWithResults.put(SortingAlgorithm.BUBBLE_SORT, bubbleSort(unsortedList));
 
         algorithmsWithResults.forEach((key, value) -> {
-            System.out.printf("%s sorted %,d integers in %,d ms.%n", key.getName(), runSize, value.runtime);
+            if (value.resultList.equals(expected))
+                System.out.printf("%s sorted %,d integers in %,d ms.%n", key.getName(), runSize, value.runtime);
             assertThat("List sorted by <"+key.getName()+"> did not match expected list.", value.resultList, is(expected));
         });
     }
@@ -49,24 +51,24 @@ public class SortingTest {
         return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
     }
 
-//    private SortingResult bubbleSort(List<Integer> unsortedList) {
-//        Instant start = Instant.now();
-//        List<Integer> sortedList = Sorting.bubbleSort(unsortedList);
-//        Instant finish = Instant.now();
-//        return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
-//    }
+    private SortingResult bubbleSort(List<Integer> unsortedList) {
+        Instant start = Instant.now();
+        List<Integer> sortedList = Sorting.bubbleSort(unsortedList);
+        Instant finish = Instant.now();
+        return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
+    }
 
     private List<Integer> numberGen(long seed, int runSize) {
         List<Integer> list;
         Random rand = new Random(seed);
         list = IntStream.range(0, runSize).mapToObj(i -> rand.nextInt() % 10).collect(Collectors.toList());
-        return list;
+        return Collections.unmodifiableList(list);
     }
 
     public enum SortingAlgorithm {
         QUICK_SORT("QuickSort"),
-        MERGE_SORT_TOP_DOWN("MergeSort Top-Down");
-//        BUBBLE_SORT("Bottom Down");
+        MERGE_SORT("MergeSort (Top-Down)"),
+        BUBBLE_SORT("BubbleSort");
         private String name;
         SortingAlgorithm(String name) { this.name = name; }
         public String getName() { return name; }

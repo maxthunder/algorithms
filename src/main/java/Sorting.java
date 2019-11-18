@@ -1,8 +1,7 @@
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.IntStream;
 
 /**
  * @author Maxwell Stark
@@ -20,11 +19,12 @@ public class Sorting {
      * SPACE COMPLEXITY:
      *  O(n) auxiliary (naive); O(log n) auxiliary (Sedgewick 1978)
      *
-     * @param inputList List to sort. Must be non-empty.
+     * @param list List to sort. Must be non-empty.
      * @return Sorted list
      *
      */
-    public static List<Integer> quickSort(List<Integer> inputList) {
+    public static List<Integer> quickSort(List<Integer> list) {
+        List<Integer> inputList = new ArrayList<>(list);
         if (inputList == null || inputList.isEmpty())
             throw new IllegalStateException("Input list must be non-empty.");
         if (inputList.size() == 1)
@@ -35,11 +35,11 @@ public class Sorting {
             return inputList;
         }
 
-        Integer pivot = inputList.get(inputList.size() - 1);
+        int pivot = inputList.get(inputList.size() - 1);
         List<Integer> lessThanOrEqual = new ArrayList<>();
         List<Integer> greaterThan = new ArrayList<>();
         for (int i = 0; i < inputList.size() - 1; i++) {// skip lastItem/pivot
-            Integer item = inputList.get(i);
+            int item = inputList.get(i);
             if (item <= pivot)
                 lessThanOrEqual.add(item);
             else
@@ -54,26 +54,6 @@ public class Sorting {
     }
 
     /**
-     * Bubble Sort Implementation (using swaps instead of comparisons). List must be non-empty.
-     * https://en.wikipedia.org/wiki/Bubble_sort
-     *
-     * PERFORMANCE:
-     *  Worst-case: O(n^2) [same for comparisons]
-     *  Average-case: O(n^2) [same for comparisons]
-     *  Best-case: O(1) [O(n^2) for comparisons]
-     *
-     * SPACE COMPLEXITY:
-     *  Worst-case: О(1) auxiliary
-     *
-     * @param inputList List to sort. Must be non-empty.
-     * @return Sorted list
-     *
-     */
-//    public static List<Integer> bubbleSort(List<Integer> inputList) {
-//        Integer[] inputArray = inputList.toArray();
-//    }
-
-    /**
      * Merge Sort Implementation. List must be non-empty.
      * https://en.wikipedia.org/wiki/Merge_sort
      *
@@ -85,11 +65,12 @@ public class Sorting {
      * SPACE COMPLEXITY:
      *  Worst-case: О(n) total with O(n) auxiliary; O(1) auxiliary with linked lists (Skiena 2008)
      *
-     * @param inputList List to sort. Must be non-empty.
+     * @param list List to sort. Must be non-empty.
      * @return Sorted list
      *
      */
-    public static List<Integer> mergeSort(List<Integer> inputList) {
+    public static List<Integer> mergeSort(List<Integer> list) {
+        List<Integer> inputList = new ArrayList<>(list);
         if (inputList == null || inputList.isEmpty())
             throw new IllegalStateException("Input list must be non-empty.");
         if (inputList.size() == 1)
@@ -142,6 +123,53 @@ public class Sorting {
     private static int take(List<Integer> completeList, int item, int index) {
         completeList.add(item);
         return index + 1;
+    }
+
+    /**
+     * Bubble Sort Implementation (using swaps instead of comparisons). List must be non-empty.
+     * https://en.wikipedia.org/wiki/Bubble_sort
+     *
+     * PERFORMANCE:
+     *  Worst-case: O(n^2) [same for comparisons]
+     *  Average-case: O(n^2) [same for comparisons]
+     *  Best-case: O(1) [O(n^2) for comparisons]
+     *
+     * SPACE COMPLEXITY:
+     *  Worst-case: О(1) auxiliary
+     *
+     * @param list List to sort. Must be non-empty.
+     * @return Sorted list
+     *
+     */
+    public static List<Integer> bubbleSort(final List<Integer> list) {
+        if (list == null || list.isEmpty())
+            throw new IllegalStateException("Input list must be non-empty.");
+        if (list.size() == 1)
+            return list;
+
+        List<Integer> inputList = new ArrayList<>(list);
+        boolean swapped;
+        do {
+            swapped = bubblePass(inputList);
+        } while (swapped);
+        return inputList;
+    }
+
+    private static void swap(List<Integer> inputList, Integer firstIndex) {
+        Integer save = inputList.get(firstIndex);
+        inputList.set(firstIndex, inputList.get(firstIndex + 1));
+        inputList.set(firstIndex + 1, save);
+    }
+
+    private static boolean bubblePass(List<Integer> list) {
+        boolean swapped = false;
+        for (int i = 0; i < list.size(); i++) {
+            if (i < list.size() - 1 && list.get(i) > list.get(i + 1)) {
+                swap(list, i);
+                swapped = true;
+            }
+        }
+        return swapped;
     }
 
 }
