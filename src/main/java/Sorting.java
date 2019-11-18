@@ -9,12 +9,21 @@ public class Sorting {
      * <link>https://en.wikipedia.org/wiki/Quicksort</link>
      *
      * TIME COMPLEXITY (Performance):
-     *  Worst-case: O(n^2)
+     *  Worst-case: O(n^2) - caused by n-1 partitioning routine when item is largest/smallest
      *  Average-case: O(n log n)
      *  Best-case: O(n log n)
      *
      * SPACE COMPLEXITY:
      *  O(n) auxiliary (naive); O(log n) auxiliary (Sedgewick 1978)
+     *
+     * NOTES:
+     *  -comparison sort
+     *
+     * The Good:
+     *  -O(n^2) are rare
+     *
+     * The Bad:
+     *  -not a stable sort (relative order of equal items is not preserved)
      *
      * @param list List to sort. Must be non-empty.
      * @return Sorted list
