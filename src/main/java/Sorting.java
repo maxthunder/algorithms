@@ -1,7 +1,4 @@
-import com.google.common.collect.Lists;
-
 import java.util.*;
-import java.util.stream.IntStream;
 
 /**
  * @author Maxwell Stark
@@ -9,9 +6,9 @@ import java.util.stream.IntStream;
 public class Sorting {
     /**
      * Quick Sort Implementation. List must be non-empty.
-     * https://en.wikipedia.org/wiki/Quicksort
+     * <link>https://en.wikipedia.org/wiki/Quicksort</link>
      *
-     * PERFORMANCE:
+     * TIME COMPLEXITY (Performance):
      *  Worst-case: O(n^2)
      *  Average-case: O(n log n)
      *  Best-case: O(n log n)
@@ -55,9 +52,9 @@ public class Sorting {
 
     /**
      * Merge Sort Implementation. List must be non-empty.
-     * https://en.wikipedia.org/wiki/Merge_sort
+     * <link>https://en.wikipedia.org/wiki/Merge_sort</link>
      *
-     * PERFORMANCE:
+     * TIME COMPLEXITY (Performance):
      *  Worst-case: O(n log n)
      *  Average-case: O(n log n)
      *  Best-case: O(n log n) [natural variant: O(n)]
@@ -126,13 +123,13 @@ public class Sorting {
     }
 
     /**
-     * Bubble Sort Implementation (using swaps instead of comparisons). List must be non-empty.
-     * https://en.wikipedia.org/wiki/Bubble_sort
+     * Bubble Sort Implementation (using swaps, instead of comparisons). List must be non-empty.
+     * <link>https://en.wikipedia.org/wiki/Bubble_sort</link>
      *
-     * PERFORMANCE:
-     *  Worst-case: O(n^2) [same for comparisons]
-     *  Average-case: O(n^2) [same for comparisons]
-     *  Best-case: O(1) [O(n^2) for comparisons]
+     * TIME COMPLEXITY (Performance):
+     *  Worst-case: O(n^2) for swaps and comparisons
+     *  Average-case: O(n^2) for swaps and comparisons
+     *  Best-case: O(1) for swaps. O(n^2) for comparisons
      *
      * SPACE COMPLEXITY:
      *  Worst-case: О(1) auxiliary
@@ -170,6 +167,59 @@ public class Sorting {
             }
         }
         return swapped;
+    }
+
+    /**
+     * Selection Sort Implementation (using swaps, instead of comparisons). List must be non-empty.
+     * <link>https://en.wikipedia.org/wiki/Selection_sort<link>
+     *
+     * TIME COMPLEXITY (Performance):
+     *  Worst-case: O(n^2)
+     *  Average-case: O(n^2)
+     *  Best-case: O(n^2)
+     *
+     * SPACE COMPLEXITY:
+     *  Worst-case: О(1) auxiliary
+     *
+     * NOTES:
+     *  The Good:
+     *  - generally better than BubbleSort or GnomeSort
+     *  - high simplicity
+     *  - performs well when auxiliary memory is limited
+     *
+     * The Bad:
+     *  - generally worst than InsertionSort
+     *  - O(n^2) is
+     *
+     * @param list List to sort. Must be non-empty.
+     * @return Sorted list
+     *
+     */
+    public static List<Integer> selectionSort(final List<Integer> list) {
+        if (list == null || list.isEmpty())
+            throw new IllegalStateException("Input list must be non-empty.");
+
+        List<Integer> inputList = new ArrayList<>(list);
+        List<Integer> sortedList = new ArrayList<>();
+
+        for (int i = 0; i < inputList.size(); i++) {
+            Integer current = inputList.get(i);
+            Integer min = current;
+            int minIndex = i;
+
+            for (int j = i; j < inputList.size(); j++) {
+                if (inputList.get(j) < min) {
+                    min = inputList.get(j);
+                    minIndex = j;
+                }
+            }
+
+            sortedList.add(min);
+            if (!min.equals(current)) {
+                inputList.set(minIndex, current);// swap
+            }
+        }
+        return sortedList;
     }
 
 }

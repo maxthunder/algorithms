@@ -29,7 +29,9 @@ public class SortingTest {
         algorithmsWithResults.put(SortingAlgorithm.QUICK_SORT, quickSort(unsortedList));
         algorithmsWithResults.put(SortingAlgorithm.MERGE_SORT, mergeSort(unsortedList));
         algorithmsWithResults.put(SortingAlgorithm.BUBBLE_SORT, bubbleSort(unsortedList));
+        algorithmsWithResults.put(SortingAlgorithm.SELECTION_SORT, selectionSort(unsortedList));
 
+        System.out.println();
         algorithmsWithResults.forEach((key, value) -> {
             if (value.resultList.equals(expected))
                 System.out.printf("%s sorted %,d integers in %,d ms.%n", key.getName(), runSize, value.runtime);
@@ -58,6 +60,13 @@ public class SortingTest {
         return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
     }
 
+    private SortingResult selectionSort(List<Integer> unsortedList) {
+        Instant start = Instant.now();
+        List<Integer> sortedList = Sorting.selectionSort(unsortedList);
+        Instant finish = Instant.now();
+        return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
+    }
+
     private List<Integer> numberGen(long seed, int runSize) {
         List<Integer> list;
         Random rand = new Random(seed);
@@ -68,7 +77,8 @@ public class SortingTest {
     public enum SortingAlgorithm {
         QUICK_SORT("QuickSort"),
         MERGE_SORT("MergeSort (Top-Down)"),
-        BUBBLE_SORT("BubbleSort");
+        BUBBLE_SORT("BubbleSort (Swaps)"),
+        SELECTION_SORT("SelectionSort (Swaps)");
         private String name;
         SortingAlgorithm(String name) { this.name = name; }
         public String getName() { return name; }
