@@ -16,6 +16,23 @@ import static org.junit.Assert.*;
  */
 public class SortingTest {
 
+    public enum SortingAlgorithm {
+        QUICK_SORT("QuickSort"),
+        MERGE_SORT("MergeSort (Top-Down)"),
+        BUBBLE_SORT("BubbleSort (Swaps)"),
+        SELECTION_SORT("SelectionSort (Swaps)");
+        private String name;
+        SortingAlgorithm(String name) { this.name = name; }
+        public String getName() { return name; }
+    }
+
+    @Data
+    @AllArgsConstructor
+    private class SortingResult {
+        final List<Integer> resultList;
+        final long runtime;
+    }
+
     @Test
     public void RunAllSortingAlgorithms() {
         long seed = 17834589345L;
@@ -70,24 +87,7 @@ public class SortingTest {
     private List<Integer> numberGen(long seed, int runSize) {
         List<Integer> list;
         Random rand = new Random(seed);
-        list = IntStream.range(0, runSize).mapToObj(i -> rand.nextInt() % 10).collect(Collectors.toList());
+        list = IntStream.range(0, runSize).mapToObj(i -> rand.nextInt() % 100).collect(Collectors.toList());
         return Collections.unmodifiableList(list);
-    }
-
-    public enum SortingAlgorithm {
-        QUICK_SORT("QuickSort"),
-        MERGE_SORT("MergeSort (Top-Down)"),
-        BUBBLE_SORT("BubbleSort (Swaps)"),
-        SELECTION_SORT("SelectionSort (Swaps)");
-        private String name;
-        SortingAlgorithm(String name) { this.name = name; }
-        public String getName() { return name; }
-    }
-
-    @Data
-    @AllArgsConstructor
-    private class SortingResult {
-        final List<Integer> resultList;
-        final long runtime;
     }
 }
