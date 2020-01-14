@@ -20,7 +20,8 @@ public class SortingTest {
         QUICK_SORT("QuickSort"),
         MERGE_SORT("MergeSort (Top-Down)"),
         BUBBLE_SORT("BubbleSort (Swaps)"),
-        SELECTION_SORT("SelectionSort (Swaps)");
+        SELECTION_SORT("SelectionSort (Swaps)"),
+        INSERTION_SORT("InsertionSort");
         private String name;
         SortingAlgorithm(String name) { this.name = name; }
         public String getName() { return name; }
@@ -47,6 +48,7 @@ public class SortingTest {
         algorithmsWithResults.put(SortingAlgorithm.MERGE_SORT, mergeSort(unsortedList));
         algorithmsWithResults.put(SortingAlgorithm.BUBBLE_SORT, bubbleSort(unsortedList));
         algorithmsWithResults.put(SortingAlgorithm.SELECTION_SORT, selectionSort(unsortedList));
+        algorithmsWithResults.put(SortingAlgorithm.INSERTION_SORT, insertionSort(unsortedList));
 
         System.out.println();
         algorithmsWithResults.forEach((key, value) -> {
@@ -80,6 +82,13 @@ public class SortingTest {
     private SortingResult selectionSort(List<Integer> unsortedList) {
         Instant start = Instant.now();
         List<Integer> sortedList = Sorting.selectionSort(unsortedList);
+        Instant finish = Instant.now();
+        return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
+    }
+
+    private SortingResult insertionSort(List<Integer> unsortedList) {
+        Instant start = Instant.now();
+        List<Integer> sortedList = Sorting.insertionSort(unsortedList);
         Instant finish = Instant.now();
         return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
     }

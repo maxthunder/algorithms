@@ -1,4 +1,7 @@
+import com.google.common.collect.Lists;
+
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Maxwell Stark
@@ -7,6 +10,8 @@ public class Sorting {
     /**
      * Quick Sort Implementation. List must be non-empty.
      * <link>https://en.wikipedia.org/wiki/Quicksort</link>
+     *
+     *  NOTE: I wrote this code..
      *
      * TIME COMPLEXITY (Performance):
      *  Worst-case: O(n^2) - caused by n-1 partitioning routine when item is largest/smallest
@@ -62,6 +67,8 @@ public class Sorting {
     /**
      * Merge Sort Implementation. List must be non-empty.
      * <link>https://en.wikipedia.org/wiki/Merge_sort</link>
+     *
+     *  NOTE: I wrote this code..
      *
      * TIME COMPLEXITY (Performance):
      *  Worst-case: O(n log n)
@@ -135,6 +142,8 @@ public class Sorting {
      * Bubble Sort Implementation (using swaps, instead of comparisons). List must be non-empty.
      * <link>https://en.wikipedia.org/wiki/Bubble_sort</link>
      *
+     *  NOTE: I wrote this code..
+     *
      * TIME COMPLEXITY (Performance):
      *  Worst-case: O(n^2) for swaps and comparisons
      *  Average-case: O(n^2) for swaps and comparisons
@@ -182,6 +191,8 @@ public class Sorting {
      * Selection Sort Implementation (using swaps, instead of comparisons). List must be non-empty.
      * <link>https://en.wikipedia.org/wiki/Selection_sort<link>
      *
+     *  NOTE: I wrote this code.
+     *
      * TIME COMPLEXITY (Performance):
      *  Worst-case: O(n^2)
      *  Average-case: O(n^2)
@@ -213,9 +224,10 @@ public class Sorting {
 
         for (int i = 0; i < inputList.size(); i++) {
             Integer current = inputList.get(i);
+
+            // get minimum item and index
             Integer min = current;
             int minIndex = i;
-
             for (int j = i; j < inputList.size(); j++) {
                 if (inputList.get(j) < min) {
                     min = inputList.get(j);
@@ -224,11 +236,54 @@ public class Sorting {
             }
 
             sortedList.add(min);
+
+            // swap current and min if !same
             if (!min.equals(current)) {
-                inputList.set(minIndex, current);// swap
+                inputList.set(minIndex, current);
             }
         }
         return sortedList;
     }
 
+    /**
+     * Insertion Sort Implementation. List must be non-empty.
+     * <link>https://en.wikipedia.org/wiki/Insertion_sort<link>
+     *
+     * NOTE: I did NOT write this code. This is a classic algorithm
+     * whose pseudocode I've seen in several books and online sources,
+     * so I'm not sure whom credit should be given. I wrote this based
+     * on that pseudocode, so it is certainly not original.
+     *
+     * TIME COMPLEXITY (Performance):
+     *  Worst-case: O(n^2) for swaps and comparisons.
+     *  Average-case: O(n^2) for swaps and comparisons.
+     *  Best-case: O(n) for swaps. O(1) for comparison.
+     *
+     * SPACE COMPLEXITY:
+     *  Worst-case: O(n) total. O(1) auxiliary.
+     *
+     * NOTES:
+     *  The Good:
+     *
+     * The Bad:
+     *
+     * @param list List to sort. Must be non-empty.
+     * @return Sorted list
+     *
+     */
+    public static List<Integer> insertionSort(final List<Integer> list) {
+        if (list == null || list.isEmpty())
+            throw new IllegalStateException("Input list must be non-empty.");
+        int[] array = list.stream().mapToInt(i -> i).toArray();
+        for (int j = 1; j < array.length; j++) {
+            int value = array[j];
+            int i = j - 1;
+            while (i >= 0 && array[i] > value) {
+                array[i + 1] = array[i];
+                i--;
+            }
+            array[i + 1] = value;
+        }
+        return Arrays.stream(array).boxed().collect(Collectors.toList());
+    }
 }
