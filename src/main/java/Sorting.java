@@ -264,8 +264,11 @@ public class Sorting {
      *
      * NOTES:
      *  The Good:
+     *   Good for small datasets or almost sorted collections
+     *   Lean amount of code could be welcome in micro instances
      *
      * The Bad:
+     *  Worst case is reverse ordered collection
      *
      * @param list List to sort. Must be non-empty.
      * @return Sorted list

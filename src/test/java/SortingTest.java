@@ -17,13 +17,24 @@ import static org.junit.Assert.*;
 public class SortingTest {
 
     public enum SortingAlgorithm {
-        QUICK_SORT("QuickSort"),
-        MERGE_SORT("MergeSort (Top-Down)"),
-        BUBBLE_SORT("BubbleSort (Swaps)"),
-        SELECTION_SORT("SelectionSort (Swaps)"),
-        INSERTION_SORT("InsertionSort");
+        QUICK_SORT("QuickSort", "Θ(n^2)", "Θ(n log n)", "Θ(n log n)"),
+        MERGE_SORT("MergeSort (Top-Down)", "Θ(n log n)", "Θ(n log n)", "Θ(n log n)"),
+        BUBBLE_SORT("BubbleSort (Swaps)", "Θ(n^2)", "Θ(n^2)", "Θ(1)"),
+        SELECTION_SORT("SelectionSort (Swaps)", "Θ(n^2)", "Θ(n^2)", "Θ(n^2)"),
+        INSERTION_SORT("InsertionSort", "Θ(n^2)", "Θ(n^2)", "Θ(n)");
         private String name;
+        private String worstCase;
+        private String avgCase;
+        private String bestCase;
         SortingAlgorithm(String name) { this.name = name; }
+
+        SortingAlgorithm(String name, String worstCase, String avgCase, String bestCase) {
+            this.name = name;
+            this.worstCase = worstCase;
+            this.avgCase = avgCase;
+            this.bestCase = bestCase;
+        }
+
         public String getName() { return name; }
     }
 
@@ -37,7 +48,7 @@ public class SortingTest {
     @Test
     public void RunAllSortingAlgorithms() {
         long seed = 17834589345L;
-        int runSize = 20000;
+        int runSize = 200_000;
         final List<Integer> unsortedList = numberGen(seed, runSize);
 
         List<Integer> expected = new ArrayList<>(unsortedList);
