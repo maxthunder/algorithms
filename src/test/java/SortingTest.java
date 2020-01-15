@@ -27,16 +27,22 @@ public class SortingTest {
         private String worstCase;
         private String avgCase;
         private String bestCase;
-        SortingAlgorithm(String name) { this.name = name; }
-
         SortingAlgorithm(String name, String worstCase, String avgCase, String bestCase) {
             this.name = name;
             this.worstCase = worstCase;
             this.avgCase = avgCase;
             this.bestCase = bestCase;
         }
-
         public String getName() { return name; }
+        public String getWorstCase() {
+            return worstCase;
+        }
+        public String getAvgCase() {
+            return avgCase;
+        }
+        public String getBestCase() {
+            return bestCase;
+        }
         public String toString() {
             return name.toUpperCase() + ": " +
                    "[Worst case: " + worstCase + ", " +
