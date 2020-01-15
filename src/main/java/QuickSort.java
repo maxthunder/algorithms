@@ -1,5 +1,9 @@
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 
 /**
@@ -26,9 +30,29 @@ import java.util.List;
  *  -not a stable sort (relative order of equal items is not preserved)
  *
  */
-public class QuickSort extends AbstractSorting {
+public class QuickSort extends AbstractSorting implements Callable<List<Integer>> {
+
+    public QuickSort() {
+        algorithmType = SortingAlgorithm.QUICK_SORT;
+    }
+
+    public QuickSort(List<Integer> list) {
+        algorithmType = SortingAlgorithm.QUICK_SORT;
+        integerList = Collections.unmodifiableList(list);
+    }
+
     @Override
-    public List<Integer> sort(List<Integer> list) {
+    public List<Integer> call() {
+        return sort();
+    }
+
+    @Override
+    public List<Integer> sort() {
+        validate();
+        return quicksort(integerList);
+    }
+
+    private List<Integer> quicksort(List<Integer> list) {
         List<Integer> baseCases = getBaseCases(list);
         if (baseCases != null)
             return baseCases;
@@ -47,9 +71,14 @@ public class QuickSort extends AbstractSorting {
         }
 
         // only quick sort only if the list is not a singleton
-        List<Integer> completedList = (lessThanOrEqual.size() > 1) ? sort(lessThanOrEqual) : lessThanOrEqual;
+        List<Integer> completedList = (lessThanOrEqual.size() > 1) ? quicksort(lessThanOrEqual) : lessThanOrEqual;
         completedList.add(pivot);
-        completedList.addAll((greaterThan.size() > 1) ? sort(greaterThan) : greaterThan);
+        completedList.addAll((greaterThan.size() > 1) ? quicksort(greaterThan) : greaterThan);
         return completedList;
+    }
+
+    private void validate() {
+        if (CollectionUtils.isEmpty(integerList))
+            throw new IllegalStateException("list cannot be empty. Set list in constructor");
     }
 }

@@ -4,8 +4,11 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractSorting implements ISorting {
+    public static List<Integer> integerList;
+    public static SortingAlgorithm algorithmType;
+
     @Override
-    public abstract List<Integer> sort(List<Integer> unsortedList);
+    public abstract List<Integer> sort();
 
     static List<Integer> getBaseCases(List<Integer> list) {
         List<Integer> inputList = new ArrayList<>(list);
@@ -19,5 +22,18 @@ public abstract class AbstractSorting implements ISorting {
             return inputList;
         }
         return null;
+    }
+
+//    static SortingResult sortingResult(SortingAlgorithm algorithmType, List<Integer> sorted) {
+//
+//    }
+
+
+    public static void setIntegerList(List<Integer> integerList) {
+        AbstractSorting.integerList = integerList;
+    }
+
+    public static SortingAlgorithm getAlgorithmType() {
+        return algorithmType;
     }
 }

@@ -1,11 +1,13 @@
+import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
-import java.util.concurrent.Callable;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -17,107 +19,103 @@ import static org.junit.Assert.*;
  */
 public class SortingTest {
 
-    public enum SortingAlgorithm {
-        QUICK_SORT("QuickSort", "Θ(n^2)", "Θ(n log n)", "Θ(n log n)"),
-        MERGE_SORT("MergeSort (Top-Down)", "Θ(n log n)", "Θ(n log n)", "Θ(n log n)"),
-        BUBBLE_SORT("BubbleSort (Swaps)", "Θ(n^2)", "Θ(n^2)", "Θ(1)"),
-        SELECTION_SORT("SelectionSort (Swaps)", "Θ(n^2)", "Θ(n^2)", "Θ(n^2)"),
-        INSERTION_SORT("InsertionSort", "Θ(n^2)", "Θ(n^2)", "Θ(n)");
-        private String name;
-        private String worstCase;
-        private String avgCase;
-        private String bestCase;
-        SortingAlgorithm(String name, String worstCase, String avgCase, String bestCase) {
-            this.name = name;
-            this.worstCase = worstCase;
-            this.avgCase = avgCase;
-            this.bestCase = bestCase;
-        }
-        public String getName() { return name; }
-        public String getWorstCase() {
-            return worstCase;
-        }
-        public String getAvgCase() {
-            return avgCase;
-        }
-        public String getBestCase() {
-            return bestCase;
-        }
-        public String toString() {
-            return name.toUpperCase() + ": " +
-                   "[Worst case: " + worstCase + ", " +
-                   "Average case: " + avgCase + ", " +
-                   "Best case: " + bestCase + "]\n";
-        }
+
+
+    private final static long seed = System.nanoTime();
+    private final static int runSize = 40_000;
+    private static List<Integer> unsortedList;
+    private static List<Integer> expected;
+
+    @Before
+    public void setup() {
+        unsortedList = Collections.unmodifiableList(numberGen(seed, runSize));
+        expected = numberGen(seed, runSize);
+        Collections.sort(expected);
     }
 
-    @Data
-    @AllArgsConstructor
-    private class SortingResult {
-        final List<Integer> resultList;
-        final long runtime;
+    private void printResults( Map<SortingAlgorithm, SortingResult> results) {
+        results.forEach((key, value) -> {
+            if (value.resultList.equals(expected))
+                System.out.printf("\n%s sorted %,d integers in %,d ms.%n\n", key, runSize, value.runtime);
+            assertThat("List sorted by <"+key.getName()+"> did not match expected list.", value.resultList, is(expected));
+        });
     }
 
     @Test
-    public void RunAllSortingAlgorithms() {
-        long seed = 17834589345L;
-        int runSize = 40_000;
-        final List<Integer> unsortedList = numberGen(seed, runSize);
-
-        List<Integer> expected = new ArrayList<>(unsortedList);
-        Collections.sort(expected);
-
+    public void RunAllSortingAlgorithms_SingleThreaded() {
         Map<SortingAlgorithm, SortingResult> algorithmsWithResults = new LinkedHashMap<>();
         algorithmsWithResults.put(SortingAlgorithm.QUICK_SORT, quickSort(unsortedList));
         algorithmsWithResults.put(SortingAlgorithm.MERGE_SORT, mergeSort(unsortedList));
         algorithmsWithResults.put(SortingAlgorithm.BUBBLE_SORT, bubbleSort(unsortedList));
         algorithmsWithResults.put(SortingAlgorithm.SELECTION_SORT, selectionSort(unsortedList));
         algorithmsWithResults.put(SortingAlgorithm.INSERTION_SORT, insertionSort(unsortedList));
+        printResults(algorithmsWithResults);
+    }
 
-        System.out.println();
-        algorithmsWithResults.forEach((key, value) -> {
-            if (value.resultList.equals(expected))
-                System.out.printf("%s sorted %,d integers in %,d ms.%n\n", key, runSize, value.runtime);
-            assertThat("List sorted by <"+key.getName()+"> did not match expected list.", value.resultList, is(expected));
-        });
+    @Test
+    public void RunAllSortingAlgorithms_MultiThreaded() throws InterruptedException, ExecutionException {
+        Map<SortingAlgorithm, Callable<List<Integer>>> sortingAlgorithms = new LinkedHashMap<>();
+        Map<SortingAlgorithm, List<Integer>> sortingResults = new LinkedHashMap<>();
+
+        sortingAlgorithms.put(SortingAlgorithm.QUICK_SORT, new QuickSort(unsortedList));
+
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        List<Future<List<Integer>>> futures = executorService.invokeAll(sortingAlgorithms.values());
+        for (Future<List<Integer>> future : futures) {
+            List<Integer> sortedList = future.get();
+            assertThat("List attempted to be sorted did not match expected list.", sortedList, is(expected));
+        }
+    }
+
+    @Test
+    public void quickSortMultiThreaded() throws InterruptedException, ExecutionException {
+        List<Callable<List<Integer>>> callables = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            callables.add(new QuickSort(numberGen(System.nanoTime(), 20)));
+        }
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        List<Future<List<Integer>>> futures = executorService.invokeAll(callables);
+        for (Future<List<Integer>> future : futures) {
+            System.out.println(future.get());
+        }
     }
 
     private SortingResult quickSort(List<Integer> unsortedList) {
         Instant start = Instant.now();
-        QuickSort quickSort = new QuickSort();
-        List<Integer> sortedList = quickSort.sort(unsortedList);
+        QuickSort quickSort = new QuickSort(unsortedList);
+        List<Integer> sortedList = quickSort.sort();
         Instant finish = Instant.now();
         return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
     }
 
     private SortingResult mergeSort(List<Integer> unsortedList) {
         Instant start = Instant.now();
-        MergeSort mergeSort = new MergeSort();
-        List<Integer> sortedList = mergeSort.sort(unsortedList);
+        MergeSort mergeSort = new MergeSort(unsortedList);
+        List<Integer> sortedList = mergeSort.sort();
         Instant finish = Instant.now();
         return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
     }
 
     private SortingResult bubbleSort(List<Integer> unsortedList) {
         Instant start = Instant.now();
-        BubbleSort bubbleSort = new BubbleSort();
-        List<Integer> sortedList = bubbleSort.sort(unsortedList);
+        BubbleSort bubbleSort = new BubbleSort(unsortedList);
+        List<Integer> sortedList = bubbleSort.sort();
         Instant finish = Instant.now();
         return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
     }
 
     private SortingResult selectionSort(List<Integer> unsortedList) {
         Instant start = Instant.now();
-        SelectionSort selectionSort = new SelectionSort();
-        List<Integer> sortedList = selectionSort.sort(unsortedList);
+        SelectionSort selectionSort = new SelectionSort(unsortedList);
+        List<Integer> sortedList = selectionSort.sort();
         Instant finish = Instant.now();
         return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
     }
 
     private SortingResult insertionSort(List<Integer> unsortedList) {
         Instant start = Instant.now();
-        InsertionSort insertionSort = new InsertionSort();
-        List<Integer> sortedList = insertionSort.sort(unsortedList);
+        InsertionSort insertionSort = new InsertionSort(unsortedList);
+        List<Integer> sortedList = insertionSort.sort();
         Instant finish = Instant.now();
         return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
     }
@@ -125,7 +123,7 @@ public class SortingTest {
     private List<Integer> numberGen(long seed, int runSize) {
         List<Integer> list;
         Random rand = new Random(seed);
-        list = IntStream.range(0, runSize).mapToObj(i -> rand.nextInt() % 100).collect(Collectors.toList());
-        return Collections.unmodifiableList(list);
+        list = IntStream.range(0, runSize).mapToObj(i -> Math.abs(rand.nextInt() % 100)).collect(Collectors.toList());
+        return list;
     }
 }

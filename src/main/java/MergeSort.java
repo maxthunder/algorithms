@@ -20,8 +20,16 @@ import java.util.List;
  *
  */
 public class MergeSort extends AbstractSorting {
+    public MergeSort(List<Integer> list) {
+        integerList = list;
+    }
+
     @Override
-    public List<Integer> sort(List<Integer> list) {
+    public List<Integer> sort() {
+        return mergesort(integerList);
+    }
+
+    private List<Integer> mergesort(List<Integer> list) {
         List<Integer> baseCases = getBaseCases(list);
         if (baseCases != null)
             return baseCases;
@@ -29,8 +37,8 @@ public class MergeSort extends AbstractSorting {
         List<Integer> inputList = new ArrayList<>(list);
 
         int splitIndex = inputList.size() / 2;
-        List<Integer> first = sort(inputList.subList(0, splitIndex));
-        List<Integer> second = sort(inputList.subList(splitIndex, inputList.size()));
+        List<Integer> first = mergesort(inputList.subList(0, splitIndex));
+        List<Integer> second = mergesort(inputList.subList(splitIndex, inputList.size()));
         return merge(first, second);
     }
 

@@ -27,13 +27,16 @@ import java.util.List;
  *
  */
 public class SelectionSort extends AbstractSorting {
+    public SelectionSort(List<Integer> list) {
+        integerList = list;
+    }
 
     @Override
-    public List<Integer> sort(final List<Integer> list) {
-        if (list == null || list.isEmpty())
+    public List<Integer> sort() {
+        if (integerList == null || integerList.isEmpty())
             throw new IllegalStateException("Input list must be non-empty.");
 
-        List<Integer> inputList = new ArrayList<>(list);
+        List<Integer> inputList = new ArrayList<>(integerList);
         List<Integer> sortedList = new ArrayList<>();
 
         for (int i = 0; i < inputList.size(); i++) {

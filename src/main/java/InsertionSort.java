@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -6,10 +7,9 @@ import java.util.stream.Collectors;
  * Insertion Sort Implementation. List must be non-empty.
  * <link>https://en.wikipedia.org/wiki/Insertion_sort<link>
  *
- * NOTE: I did NOT write this code. This is a classic algorithm
- * whose pseudocode I've seen in several books and online sources,
- * so I'm not sure whom credit should be given. I wrote this based
- * on that pseudocode, so it is certainly not original.
+ * NOTE: I wrote this code, but I found several implementations that
+ * mirror this one. This is classical way of insertion sorting and
+ * therefore, I do not claim that I am the original writer of this implementation
  *
  * TIME COMPLEXITY (Performance):
  *  Worst-case: O(n^2) for swaps and comparisons.
@@ -30,14 +30,18 @@ import java.util.stream.Collectors;
  *
  */
 public class InsertionSort extends AbstractSorting {
+    public InsertionSort(List<Integer> list) {
+        integerList = Collections.unmodifiableList(list);
+    }
+
     @Override
-    public List<Integer> sort(final List<Integer> list) {
-        if (list == null || list.isEmpty())
+    public List<Integer> sort() {
+        if (integerList == null || integerList.isEmpty())
             throw new IllegalStateException("Input list must be non-empty.");
-        int[] array = list.stream().mapToInt(i -> i).toArray();
-        for (int j = 1; j < array.length; j++) {
-            int value = array[j];
-            int i = j - 1;
+        int[] array = integerList.stream().mapToInt(i -> i).toArray();
+        for (int n = 1; n < array.length; n++) {
+            int value = array[n];
+            int i = n - 1;
             while (i >= 0 && array[i] > value) {
                 array[i + 1] = array[i];
                 i--;

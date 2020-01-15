@@ -17,14 +17,18 @@ import java.util.List;
  *
  */
 public class BubbleSort extends AbstractSorting {
-    @Override
-    public List<Integer> sort(final List<Integer> list) {
-        if (list == null || list.isEmpty())
-            throw new IllegalStateException("Input list must be non-empty.");
-        if (list.size() == 1)
-            return list;
+    public BubbleSort(List<Integer> list) {
+        integerList = list;
+    }
 
-        List<Integer> inputList = new ArrayList<>(list);
+    @Override
+    public List<Integer> sort() {
+        if (integerList == null || integerList.isEmpty())
+            throw new IllegalStateException("Input list must be non-empty.");
+        if (integerList.size() == 1)
+            return integerList;
+
+        List<Integer> inputList = new ArrayList<>(integerList);
         boolean swapped;
         do {
             swapped = bubblePass(inputList);
