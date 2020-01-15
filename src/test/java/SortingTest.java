@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -36,6 +37,12 @@ public class SortingTest {
         }
 
         public String getName() { return name; }
+        public String toString() {
+            return name.toUpperCase() + ": " +
+                   "[Worst case: " + worstCase + ", " +
+                   "Average case: " + avgCase + ", " +
+                   "Best case: " + bestCase + "]\n";
+        }
     }
 
     @Data
@@ -48,7 +55,7 @@ public class SortingTest {
     @Test
     public void RunAllSortingAlgorithms() {
         long seed = 17834589345L;
-        int runSize = 200_000;
+        int runSize = 40_000;
         final List<Integer> unsortedList = numberGen(seed, runSize);
 
         List<Integer> expected = new ArrayList<>(unsortedList);
@@ -64,42 +71,47 @@ public class SortingTest {
         System.out.println();
         algorithmsWithResults.forEach((key, value) -> {
             if (value.resultList.equals(expected))
-                System.out.printf("%s sorted %,d integers in %,d ms.%n", key.getName(), runSize, value.runtime);
+                System.out.printf("%s sorted %,d integers in %,d ms.%n\n", key, runSize, value.runtime);
             assertThat("List sorted by <"+key.getName()+"> did not match expected list.", value.resultList, is(expected));
         });
     }
 
     private SortingResult quickSort(List<Integer> unsortedList) {
         Instant start = Instant.now();
-        List<Integer> sortedList = Sorting.quickSort(unsortedList);
+        QuickSort quickSort = new QuickSort();
+        List<Integer> sortedList = quickSort.sort(unsortedList);
         Instant finish = Instant.now();
         return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
     }
 
     private SortingResult mergeSort(List<Integer> unsortedList) {
         Instant start = Instant.now();
-        List<Integer> sortedList = Sorting.mergeSort(unsortedList);
+        MergeSort mergeSort = new MergeSort();
+        List<Integer> sortedList = mergeSort.sort(unsortedList);
         Instant finish = Instant.now();
         return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
     }
 
     private SortingResult bubbleSort(List<Integer> unsortedList) {
         Instant start = Instant.now();
-        List<Integer> sortedList = Sorting.bubbleSort(unsortedList);
+        BubbleSort bubbleSort = new BubbleSort();
+        List<Integer> sortedList = bubbleSort.sort(unsortedList);
         Instant finish = Instant.now();
         return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
     }
 
     private SortingResult selectionSort(List<Integer> unsortedList) {
         Instant start = Instant.now();
-        List<Integer> sortedList = Sorting.selectionSort(unsortedList);
+        SelectionSort selectionSort = new SelectionSort();
+        List<Integer> sortedList = selectionSort.sort(unsortedList);
         Instant finish = Instant.now();
         return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
     }
 
     private SortingResult insertionSort(List<Integer> unsortedList) {
         Instant start = Instant.now();
-        List<Integer> sortedList = Sorting.insertionSort(unsortedList);
+        InsertionSort insertionSort = new InsertionSort();
+        List<Integer> sortedList = insertionSort.sort(unsortedList);
         Instant finish = Instant.now();
         return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
     }
