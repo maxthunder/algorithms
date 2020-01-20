@@ -12,7 +12,11 @@ public class AlgorithmTesting {
         setup();
     }
 
-    private void setup() {
+    public static void reset() {
+        setup();
+    }
+
+    private static void setup() {
         unsortedList = Collections.unmodifiableList(RandomGen.numberGen(seed, runSize));
         expected = RandomGen.numberGen(seed, runSize);
         Collections.sort(expected);

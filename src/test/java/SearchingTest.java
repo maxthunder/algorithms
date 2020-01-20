@@ -19,6 +19,8 @@ public class SearchingTest extends AlgorithmTesting {
         bst.addNode(31);
         bst.addNode(55);
         bst.addNode(49);
+
+        reset();
     }
 
     @Test
