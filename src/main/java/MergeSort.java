@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Merge Sort Implementation. List must be non-empty.
@@ -19,9 +20,15 @@ import java.util.List;
  * @return Sorted list
  *
  */
-public class MergeSort extends AbstractSorting {
+public class MergeSort extends AbstractSorting implements Callable<List<Integer>> {
     public MergeSort(List<Integer> list) {
+        algorithmType = SortingAlgorithm.MERGE_SORT;
         integerList = list;
+    }
+
+    @Override
+    public List<Integer> call() {
+        return sort();
     }
 
     @Override

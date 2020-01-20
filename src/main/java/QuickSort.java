@@ -25,16 +25,13 @@ import java.util.concurrent.Callable;
  *
  * The Good:
  *  -O(n^2) are rare
+ *  -solid choice for average-case scenarios
  *
  * The Bad:
  *  -not a stable sort (relative order of equal items is not preserved)
  *
  */
 public class QuickSort extends AbstractSorting implements Callable<List<Integer>> {
-
-    public QuickSort() {
-        algorithmType = SortingAlgorithm.QUICK_SORT;
-    }
 
     public QuickSort(List<Integer> list) {
         algorithmType = SortingAlgorithm.QUICK_SORT;

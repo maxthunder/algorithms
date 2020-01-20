@@ -41,17 +41,21 @@ public class SortingTest extends AlgorithmTesting {
     @Test
     public void RunAllSortingAlgorithms_MultiThreaded() throws InterruptedException, ExecutionException {
         Map<SortingAlgorithm, Callable<List<Integer>>> sortingAlgorithms = new LinkedHashMap<>();
-        Map<SortingAlgorithm, List<Integer>> sortingResults = new LinkedHashMap<>();
 
         sortingAlgorithms.put(SortingAlgorithm.QUICK_SORT, new QuickSort(unsortedList));
+        sortingAlgorithms.put(SortingAlgorithm.MERGE_SORT, new MergeSort(unsortedList));
         // ...
 
         ExecutorService executorService = Executors.newFixedThreadPool(10);
+        Instant start = Instant.now();
         List<Future<List<Integer>>> futures = executorService.invokeAll(sortingAlgorithms.values());
         for (Future<List<Integer>> future : futures) {
             List<Integer> sortedList = future.get();
             Assert.assertThat("List attempted to be sorted did not match expected list.", sortedList, is(expected));
         }
+        Instant finish = Instant.now();
+        System.out.printf("\nsorted using ALL algorithms %,d integers EACH in %,d ms.%n\n", runSize,
+                Duration.between(start, finish).toMillis());
     }
 
     @Test
