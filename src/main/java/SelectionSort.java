@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,9 +27,10 @@ import java.util.List;
  *  - O(n^2) is
  *
  */
-public class SelectionSort extends AbstractSorting {
+public class SelectionSort extends AbstractSortingCallable {
     public SelectionSort(List<Integer> list) {
-        integerList = list;
+        super(SortingAlgorithm.SELECTION_SORT, Collections.unmodifiableList(list));
+
     }
 
     @Override

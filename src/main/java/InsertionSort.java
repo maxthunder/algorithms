@@ -29,9 +29,9 @@ import java.util.stream.Collectors;
  *  Bad in average-cases!!
  *
  */
-public class InsertionSort extends AbstractSorting {
+public class InsertionSort extends AbstractSortingCallable {
     public InsertionSort(List<Integer> list) {
-        integerList = Collections.unmodifiableList(list);
+        super(SortingAlgorithm.INSERTION_SORT, Collections.unmodifiableList(list));
     }
 
     @Override

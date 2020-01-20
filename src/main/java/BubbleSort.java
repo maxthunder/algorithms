@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,9 +17,9 @@ import java.util.List;
  *  Worst-case: О(1) auxiliary
  *
  */
-public class BubbleSort extends AbstractSorting {
+public class BubbleSort extends AbstractSortingCallable {
     public BubbleSort(List<Integer> list) {
-        integerList = list;
+        super(SortingAlgorithm.BUBBLE_SORT, Collections.unmodifiableList(list));
     }
 
     @Override

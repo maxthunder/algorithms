@@ -25,9 +25,6 @@ public enum SortingAlgorithm {
         return bestCase;
     }
     public String toString() {
-        return name.toUpperCase() + ": " +
-                "[Worst case: " + worstCase + ", " +
-                "Average case: " + avgCase + ", " +
-                "Best case: " + bestCase + "]\n";
+        return name.toUpperCase() + ": " + "[" + worstCase + ", " + avgCase + ", " + bestCase + "]";
     }
 }

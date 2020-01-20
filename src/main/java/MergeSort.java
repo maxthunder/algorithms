@@ -1,6 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * Merge Sort Implementation. List must be non-empty.
@@ -16,20 +16,22 @@ import java.util.concurrent.Callable;
  * SPACE COMPLEXITY:
  *  Worst-case: О(n) total with O(n) auxiliary; O(1) auxiliary with linked lists (Skiena 2008)
  *
- * @param list List to sort. Must be non-empty.
- * @return Sorted list
  *
  */
-public class MergeSort extends AbstractSorting implements Callable<List<Integer>> {
+//public class MergeSort extends AbstractSortingCallable implements Callable<SortingResult> {
+public class MergeSort extends AbstractSortingCallable {
     public MergeSort(List<Integer> list) {
-        algorithmType = SortingAlgorithm.MERGE_SORT;
-        integerList = list;
+        super(SortingAlgorithm.MERGE_SORT, Collections.unmodifiableList(list));
+
     }
 
-    @Override
-    public List<Integer> call() {
-        return sort();
-    }
+//    @Override
+//    public SortingResult call() {
+//        Instant start = Instant.now();
+//        List<Integer> sortedList = sort();
+//        Instant finish = Instant.now();
+//        return new SortingResult(SortingAlgorithm.QUICK_SORT, sortedList, Duration.between(start, finish).toMillis());
+//    }
 
     @Override
     public List<Integer> sort() {

@@ -1,9 +1,7 @@
-import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 
 /**
@@ -31,16 +29,10 @@ import java.util.concurrent.Callable;
  *  -not a stable sort (relative order of equal items is not preserved)
  *
  */
-public class QuickSort extends AbstractSorting implements Callable<List<Integer>> {
+public class QuickSort extends AbstractSortingCallable {
 
     public QuickSort(List<Integer> list) {
-        algorithmType = SortingAlgorithm.QUICK_SORT;
-        integerList = Collections.unmodifiableList(list);
-    }
-
-    @Override
-    public List<Integer> call() {
-        return sort();
+        super(SortingAlgorithm.QUICK_SORT, Collections.unmodifiableList(list));
     }
 
     @Override
@@ -72,10 +64,5 @@ public class QuickSort extends AbstractSorting implements Callable<List<Integer>
         completedList.add(pivot);
         completedList.addAll((greaterThan.size() > 1) ? quicksort(greaterThan) : greaterThan);
         return completedList;
-    }
-
-    private void validate() {
-        if (CollectionUtils.isEmpty(integerList))
-            throw new IllegalStateException("list cannot be empty. Set list in constructor");
     }
 }
