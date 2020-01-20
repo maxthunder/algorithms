@@ -1,9 +1,11 @@
+package sorting;
+
 public enum SortingAlgorithm {
-    QUICK_SORT("QuickSort", "Θ(n^2)", "Θ(n log n)", "Θ(n log n)"),
-    MERGE_SORT("MergeSort (Top-Down)", "Θ(n log n)", "Θ(n log n)", "Θ(n log n)"),
-    BUBBLE_SORT("BubbleSort (Swaps)", "Θ(n^2)", "Θ(n^2)", "Θ(1)"),
-    SELECTION_SORT("SelectionSort (Swaps)", "Θ(n^2)", "Θ(n^2)", "Θ(n^2)"),
-    INSERTION_SORT("InsertionSort", "Θ(n^2)", "Θ(n^2)", "Θ(n)");
+    QUICK_SORT("sorting.QuickSort", "Θ(n^2)", "Θ(n log n)", "Θ(n log n)"),
+    MERGE_SORT("sorting.MergeSort (Top-Down)", "Θ(n log n)", "Θ(n log n)", "Θ(n log n)"),
+    BUBBLE_SORT("sorting.BubbleSort (Swaps)", "Θ(n^2)", "Θ(n^2)", "Θ(1)"),
+    SELECTION_SORT("sorting.SelectionSort (Swaps)", "Θ(n^2)", "Θ(n^2)", "Θ(n^2)"),
+    INSERTION_SORT("sorting.InsertionSort", "Θ(n^2)", "Θ(n^2)", "Θ(n)");
     private String name;
     private String worstCase;
     private String avgCase;

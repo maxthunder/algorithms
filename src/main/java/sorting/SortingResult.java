@@ -1,3 +1,5 @@
+package sorting;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

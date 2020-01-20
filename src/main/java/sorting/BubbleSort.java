@@ -1,3 +1,5 @@
+package sorting;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,13 +19,16 @@ import java.util.List;
  *  Worst-case: О(1) auxiliary
  *
  */
-public class BubbleSort extends AbstractSortingCallable {
+public class BubbleSort extends AbstractSorting {
     public BubbleSort(List<Integer> list) {
         super(SortingAlgorithm.BUBBLE_SORT, Collections.unmodifiableList(list));
     }
 
     @Override
     public List<Integer> sort() {
+        List<Integer> baseCases = getBaseCases(integerList);
+        if (baseCases != null)
+            return baseCases;
         if (integerList == null || integerList.isEmpty())
             throw new IllegalStateException("Input list must be non-empty.");
         if (integerList.size() == 1)

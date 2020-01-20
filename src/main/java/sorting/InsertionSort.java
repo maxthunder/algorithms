@@ -1,3 +1,6 @@
+package sorting;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,15 +32,17 @@ import java.util.stream.Collectors;
  *  Bad in average-cases!!
  *
  */
-public class InsertionSort extends AbstractSortingCallable {
+public class InsertionSort extends AbstractSorting {
     public InsertionSort(List<Integer> list) {
         super(SortingAlgorithm.INSERTION_SORT, Collections.unmodifiableList(list));
     }
 
     @Override
     public List<Integer> sort() {
-        if (integerList == null || integerList.isEmpty())
-            throw new IllegalStateException("Input list must be non-empty.");
+        List<Integer> baseCases = getBaseCases(integerList);
+        if (baseCases != null)
+            return baseCases;
+
         int[] array = integerList.stream().mapToInt(i -> i).toArray();
         for (int n = 1; n < array.length; n++) {
             int value = array[n];

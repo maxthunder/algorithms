@@ -1,4 +1,5 @@
 import org.junit.Test;
+import sorting.*;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -22,9 +23,9 @@ public class SortingTest extends AlgorithmTesting {
         System.out.println("SORTING RESULTS...\n");
         results.forEach((sortingAlgorithm, result) -> {
             String algorithm = sortingAlgorithm.getName();
-            if (result.resultList.equals(expected))
-                System.out.printf("%s sorted %,d integers in %,d ms.%n", algorithm, runSize, result.runtime);
-            assertThat("List sorted by <"+algorithm+"> did not match expected list.", result.resultList, is(expected));
+            if (result.getResultList().equals(expected))
+                System.out.printf("%s sorted %,d integers in %,d ms.%n", algorithm, runSize, result.getRuntime());
+            assertThat("List sorted by <"+algorithm+"> did not match expected list.", result.getResultList(), is(expected));
         });
     }
 
@@ -44,7 +45,7 @@ public class SortingTest extends AlgorithmTesting {
         for (Future<SortingResult> future : futures) {
             resultList.add(future.get());
         }
-        assertResults(resultList.stream().collect(Collectors.toMap(k -> k.sortingAlgorithm, v -> v)));
+        assertResults(resultList.stream().collect(Collectors.toMap(k -> k.getSortingAlgorithm(), v -> v)));
     }
 
     @Test

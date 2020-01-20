@@ -1,3 +1,4 @@
+package sorting;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,15 +30,13 @@ import java.util.List;
  *  -not a stable sort (relative order of equal items is not preserved)
  *
  */
-public class QuickSort extends AbstractSortingCallable {
-
+public class QuickSort extends AbstractSorting {
     public QuickSort(List<Integer> list) {
         super(SortingAlgorithm.QUICK_SORT, Collections.unmodifiableList(list));
     }
 
     @Override
     public List<Integer> sort() {
-        validate();
         return quicksort(integerList);
     }
 
@@ -45,7 +44,6 @@ public class QuickSort extends AbstractSortingCallable {
         List<Integer> baseCases = getBaseCases(list);
         if (baseCases != null)
             return baseCases;
-
         List<Integer> inputList = new ArrayList<>(list);
 
         int pivot = inputList.get(inputList.size() - 1);

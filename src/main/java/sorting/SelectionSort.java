@@ -1,3 +1,5 @@
+package sorting;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,16 +20,16 @@ import java.util.List;
  *
  * NOTES:
  *  The Good:
- *  - generally better than BubbleSort or GnomeSort
+ *  - generally better than sorting.BubbleSort or GnomeSort
  *  - high simplicity
  *  - performs well when auxiliary memory is limited
  *
  * The Bad:
- *  - generally worst than InsertionSort
+ *  - generally worst than sorting.InsertionSort
  *  - O(n^2) is
  *
  */
-public class SelectionSort extends AbstractSortingCallable {
+public class SelectionSort extends AbstractSorting {
     public SelectionSort(List<Integer> list) {
         super(SortingAlgorithm.SELECTION_SORT, Collections.unmodifiableList(list));
 
@@ -35,8 +37,9 @@ public class SelectionSort extends AbstractSortingCallable {
 
     @Override
     public List<Integer> sort() {
-        if (integerList == null || integerList.isEmpty())
-            throw new IllegalStateException("Input list must be non-empty.");
+        List<Integer> baseCases = getBaseCases(integerList);
+        if (baseCases != null)
+            return baseCases;
 
         List<Integer> inputList = new ArrayList<>(integerList);
         List<Integer> sortedList = new ArrayList<>();

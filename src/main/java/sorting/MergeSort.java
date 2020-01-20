@@ -1,3 +1,5 @@
+package sorting;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,20 +20,10 @@ import java.util.List;
  *
  *
  */
-//public class MergeSort extends AbstractSortingCallable implements Callable<SortingResult> {
-public class MergeSort extends AbstractSortingCallable {
+public class MergeSort extends AbstractSorting {
     public MergeSort(List<Integer> list) {
         super(SortingAlgorithm.MERGE_SORT, Collections.unmodifiableList(list));
-
     }
-
-//    @Override
-//    public SortingResult call() {
-//        Instant start = Instant.now();
-//        List<Integer> sortedList = sort();
-//        Instant finish = Instant.now();
-//        return new SortingResult(SortingAlgorithm.QUICK_SORT, sortedList, Duration.between(start, finish).toMillis());
-//    }
 
     @Override
     public List<Integer> sort() {
