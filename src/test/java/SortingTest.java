@@ -1,43 +1,29 @@
-import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import org.junit.Before;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 /**
  * @author Maxwell Stark
  */
-public class SortingTest {
-
-
-
-    private final static long seed = System.nanoTime();
-    private final static int runSize = 40_000;
-    private static List<Integer> unsortedList;
-    private static List<Integer> expected;
-
-    @Before
-    public void setup() {
-        unsortedList = Collections.unmodifiableList(numberGen(seed, runSize));
-        expected = numberGen(seed, runSize);
-        Collections.sort(expected);
-    }
-
-    private void printResults( Map<SortingAlgorithm, SortingResult> results) {
+public class SortingTest extends AlgorithmTesting {
+    private void printResults(Map<SortingAlgorithm, SortingResult> results) {
         results.forEach((key, value) -> {
             if (value.resultList.equals(expected))
                 System.out.printf("\n%s sorted %,d integers in %,d ms.%n\n", key, runSize, value.runtime);
-            assertThat("List sorted by <"+key.getName()+"> did not match expected list.", value.resultList, is(expected));
+            Assert.assertThat("List sorted by <"+key.getName()+"> did not match expected list.", value.resultList, is(expected));
         });
     }
 
@@ -58,12 +44,13 @@ public class SortingTest {
         Map<SortingAlgorithm, List<Integer>> sortingResults = new LinkedHashMap<>();
 
         sortingAlgorithms.put(SortingAlgorithm.QUICK_SORT, new QuickSort(unsortedList));
+        // ...
 
         ExecutorService executorService = Executors.newFixedThreadPool(10);
         List<Future<List<Integer>>> futures = executorService.invokeAll(sortingAlgorithms.values());
         for (Future<List<Integer>> future : futures) {
             List<Integer> sortedList = future.get();
-            assertThat("List attempted to be sorted did not match expected list.", sortedList, is(expected));
+            Assert.assertThat("List attempted to be sorted did not match expected list.", sortedList, is(expected));
         }
     }
 
@@ -71,7 +58,7 @@ public class SortingTest {
     public void quickSortMultiThreaded() throws InterruptedException, ExecutionException {
         List<Callable<List<Integer>>> callables = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            callables.add(new QuickSort(numberGen(System.nanoTime(), 20)));
+            callables.add(new QuickSort(RandomGen.numberGen(System.nanoTime(), 20)));
         }
         ExecutorService executorService = Executors.newFixedThreadPool(10);
         List<Future<List<Integer>>> futures = executorService.invokeAll(callables);
@@ -118,12 +105,5 @@ public class SortingTest {
         List<Integer> sortedList = insertionSort.sort();
         Instant finish = Instant.now();
         return new SortingResult(sortedList, Duration.between(start, finish).toMillis());
-    }
-
-    private List<Integer> numberGen(long seed, int runSize) {
-        List<Integer> list;
-        Random rand = new Random(seed);
-        list = IntStream.range(0, runSize).mapToObj(i -> Math.abs(rand.nextInt() % 100)).collect(Collectors.toList());
-        return list;
     }
 }
