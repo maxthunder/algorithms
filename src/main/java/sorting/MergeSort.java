@@ -43,11 +43,6 @@ public class MergeSort extends AbstractSorting {
         return merge(first, second);
     }
 
-    private int take(List<Integer> completeList, int item, int index) {
-        completeList.add(item);
-        return index + 1;
-    }
-
     private List<Integer> merge(List<Integer> listA, List<Integer> listB) {
         List<Integer> completeList = new ArrayList<>();
         int i = 0, j = 0;
@@ -79,5 +74,10 @@ public class MergeSort extends AbstractSorting {
             }
         }
         return completeList;
+    }
+
+    private int take(List<Integer> completeList, int item, int index) {
+        completeList.add(item);
+        return index + 1;
     }
 }

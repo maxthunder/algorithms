@@ -29,10 +29,6 @@ public class BubbleSort extends AbstractSorting {
         List<Integer> baseCases = getBaseCases(integerList);
         if (baseCases != null)
             return baseCases;
-        if (integerList == null || integerList.isEmpty())
-            throw new IllegalStateException("Input list must be non-empty.");
-        if (integerList.size() == 1)
-            return integerList;
 
         List<Integer> inputList = new ArrayList<>(integerList);
         boolean swapped;
