@@ -1,6 +1,5 @@
 package sorting;
 
-import org.apache.commons.collections4.CollectionUtils;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;

@@ -31,7 +31,7 @@ public class SortingTest extends AlgorithmTesting {
 
     @Test
     public void RunAllSortingAlgorithms_MultiThreaded() throws InterruptedException, ExecutionException {
-        Map<SortingAlgorithm, Callable<SortingResult>> callables = new LinkedHashMap<>();
+        Map<SortingAlgorithm, AbstractSorting> callables = new LinkedHashMap<>();
         List<SortingResult> resultList = new ArrayList<>();
 
         callables.put(SortingAlgorithm.QUICK_SORT, new QuickSort(unsortedList));
@@ -45,7 +45,7 @@ public class SortingTest extends AlgorithmTesting {
         for (Future<SortingResult> future : futures) {
             resultList.add(future.get());
         }
-        assertResults(resultList.stream().collect(Collectors.toMap(k -> k.getSortingAlgorithm(), v -> v)));
+        assertResults(resultList.stream().collect(Collectors.toMap(SortingResult::getSortingAlgorithm, v -> v)));
     }
 
     @Test
