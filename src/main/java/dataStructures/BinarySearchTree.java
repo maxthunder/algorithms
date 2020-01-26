@@ -1,7 +1,14 @@
+package dataStructures;
+
+/**
+ * Binary Search Tree
+ *
+ * I wrote this...
+ */
 public class BinarySearchTree {
     Node root;
 
-    class Node {
+    public class Node {
         int value;
         Node left;
         Node right;

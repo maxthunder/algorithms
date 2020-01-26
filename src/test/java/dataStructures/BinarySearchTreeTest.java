@@ -1,11 +1,13 @@
+package dataStructures;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
-public class SearchingTest extends AlgorithmTesting {
+public class BinarySearchTreeTest {
 
     BinarySearchTree bst;
 
@@ -19,19 +21,17 @@ public class SearchingTest extends AlgorithmTesting {
         bst.addNode(31);
         bst.addNode(55);
         bst.addNode(49);
-
-        reset();
     }
 
     @Test
-    public void binarySearchTree_containsValue() {
+    public void containsValue() {
         assertThat(bst.containsValue(76), is(true));
         assertThat(bst.containsValue(31), is(true));
         assertThat(bst.containsValue(41), is(false));
     }
 
     @Test
-    public void binarySearchTree_addNode_treeSkewedLeft() {
+    public void addNode_treeSkewedLeft() {
         bst = new BinarySearchTree();
         bst.addNode(1);
         bst.addNode(2);
@@ -44,7 +44,7 @@ public class SearchingTest extends AlgorithmTesting {
     }
 
     @Test
-    public void binarySearchTree_addNode_treeBalanced() {
+    public void addNode_treeBalanced() {
         bst = new BinarySearchTree();
         bst.addNode(2);
         bst.addNode(1);
@@ -56,7 +56,7 @@ public class SearchingTest extends AlgorithmTesting {
     }
 
     @Test
-    public void binarySearchTree_addNode_treeSkewedRight() {
+    public void addNode_treeSkewedRight() {
         bst = new BinarySearchTree();
         bst.addNode(3);
         bst.addNode(2);
@@ -67,4 +67,5 @@ public class SearchingTest extends AlgorithmTesting {
         assertThat(bst.root.value, is(3));
         assertThat(bst.root.right, is(nullValue()));
     }
+
 }
