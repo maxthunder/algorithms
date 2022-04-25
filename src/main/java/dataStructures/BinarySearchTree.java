@@ -1,5 +1,7 @@
 package dataStructures;
 
+import javax.swing.tree.TreeNode;
+
 /**
  * Binary Search Tree
  *

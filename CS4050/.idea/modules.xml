@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CS4050.iml" filepath="$PROJECT_DIR$/CS4050.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Proj1/Proj1.iml" filepath="$PROJECT_DIR$/Proj1/Proj1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Proj6/Proj6.iml" filepath="$PROJECT_DIR$/Proj6/Proj6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/floydsAlgorithm/floydsAlgorithm.iml" filepath="$PROJECT_DIR$/floydsAlgorithm/floydsAlgorithm.iml" />
+    </modules>
+  </component>
+</project>

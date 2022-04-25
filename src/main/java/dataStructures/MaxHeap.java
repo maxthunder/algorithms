@@ -50,36 +50,37 @@ public class MaxHeap {
         n++;
     }
 
-//    public Integer removeMaxNode() {
-//        if (n == 0)
-//            return null;
-//        swapNodes(0, n - 1);// swap first and last nodes (this puts maxNode at the end of heap)
-//        Integer maxNode = heap[n - 1];
-//        heap[n - 1] = null;
-//        n--;
-//        floatDown();
-//        return maxNode;
-//    }
-//
-//    private void floatDown() {
-//        int settlingNodeIndex = 0;// start with new root (that used to be at end of heap) as settling node
-//        int i = 1;
-//        boolean isSettled = false;
-//        Integer leftChildIndex = heap[leftChildIndex(i)], rightChildIndex = heap[rightChildIndex(i)];
-//        while(i < n && !isSettled) {// swap the greater of the left and right children with settling node, if at least one is greater
-//            Integer swappingNodeIndex = null;
-//            if (leftChildIndex != null && rightChildIndex != null)
-//                swappingNodeIndex = leftChildIndex >= rightChildIndex ? leftChildIndex : rightChildIndex;
-//            else if (leftChildIndex != null)
-//                swappingNodeIndex = leftChildIndex;
-//
-//            if (swappingNodeIndex != null && swappingNodeIndex > heap[settlingNodeIndex])
-//                swapNodes(swappingNodeIndex, settlingNodeIndex);
-//            else
-//                isSettled = true;
-//            i++;
-//        }
-//    }
+    public Integer popMaxNode() {
+        if (n == 0)
+            return null;
+        swapNodes(0, n - 1);// swap first and last nodes (this puts maxNode at the end of heap for easy removal)
+        Integer maxNode = heap[n - 1];
+        heap[n - 1] = null;
+        n--;
+        floatDown();// then, we need to new root node downwards until it is less than its parent, but more than either child
+        return maxNode;
+    }
+
+    private void floatDown() {
+        int settlingNodeIndex = 0;// start with new root (that used to be at end of heap) as settling node, or node that is floating downwards.
+        boolean isSettled = false;
+        for(int i = 0; i < n && !isSettled; i++) {// swap the greater of the left and right children with settling node, if at least one is greater
+            Integer leftChild = heap[leftChildIndex(i)];
+            Integer rightChild = heap[rightChildIndex(i)];
+            Integer comparingChildIndex = null;
+            if (leftChild != null && rightChild != null)
+                comparingChildIndex = leftChild >= rightChild ? leftChildIndex(i) : rightChildIndex(i);
+            else if (leftChild != null)
+                comparingChildIndex = leftChildIndex(i);
+
+            if (comparingChildIndex != null && heap[comparingChildIndex] > heap[settlingNodeIndex]) {
+                swapNodes(comparingChildIndex, settlingNodeIndex);
+                settlingNodeIndex = comparingChildIndex;
+            } else {
+                isSettled = true;
+            }
+        }
+    }
 
     private int parent(int index) {
         return index / 2;
