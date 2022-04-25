@@ -11,7 +11,7 @@ public class MaxDepthBinarySearchTreeTest {
     public void singleNodeTest() {
         Node node = new Node(1);
 
-        int depth = MaxDepthBinaryTree.maxDepth(node);
+        int depth = MaxDepthBinaryTree.recursiveDFS(node);
         assertThat("depth should be 1", depth, Is.is(1));
     }
     @Test
@@ -20,7 +20,7 @@ public class MaxDepthBinarySearchTreeTest {
         node.left = new Node(2);
         node.right = new Node(3);
 
-        int depth = MaxDepthBinaryTree.maxDepth(node);
+        int depth = MaxDepthBinaryTree.recursiveDFS(node);
 
         final int target = 2;
         assertThat(String.format("depth should be %d", target), depth, Is.is(target));
