@@ -1,7 +1,5 @@
 package dataStructures;
 
-import javax.swing.tree.TreeNode;
-
 /**
  * Binary Search Tree
  *
@@ -9,22 +7,6 @@ import javax.swing.tree.TreeNode;
  */
 public class BinarySearchTree {
     Node root;
-
-    public class Node {
-        int value;
-        Node left;
-        Node right;
-        Node(int value) {
-            this.value = value;
-            left = null;
-            right = null;
-        }
-
-        @Override
-        public String toString() {
-            return "(" + value + ")";
-        }
-    }
 
     public void addNode(int value) {
         root = add(new Node(value), root);
