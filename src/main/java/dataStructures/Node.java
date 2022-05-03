@@ -2,7 +2,6 @@ package dataStructures;
 
 import lombok.Data;
 
-@Data
 public class Node {
     Node(int value) {
         this.value = value;

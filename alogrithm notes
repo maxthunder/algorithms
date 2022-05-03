@@ -1,0 +1,9 @@
+-create new subList:
+	-add root to queue
+	-save children
+	-for each item in queue:
+		-pop queue and add to subList
+		-add it's children
+			-once queue is empty, we will know that the subList is complete
+
+-once the queue is empty (i.e. there are no more children), return list of lists
