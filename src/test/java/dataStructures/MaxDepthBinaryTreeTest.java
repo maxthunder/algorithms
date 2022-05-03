@@ -2,7 +2,6 @@ package dataStructures;
 
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.hamcrest.core.Is;
 import org.junit.Test;
 
@@ -50,12 +49,12 @@ public class MaxDepthBinaryTreeTest {
                         Is.is(ex.target)));
     }
 
-    @Test
-    public void iterativeBFSTest() {
-        examples.forEach(ex ->
-                assertThat(String.format("depth should be %d", ex.target),
-                        MaxDepthBinaryTree.iterativeBFS(ex.example),
-                            Is.is(ex.target)));
-    }
+//    @Test
+//    public void iterativeBFSTest() {
+//        examples.forEach(ex ->
+//                assertThat(String.format("depth should be %d", ex.target),
+//                        MaxDepthBinaryTree.iterativeBFS(ex.example),
+//                            Is.is(ex.target)));
+//    }
 
 }
