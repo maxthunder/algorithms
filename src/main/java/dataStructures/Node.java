@@ -3,15 +3,21 @@ package dataStructures;
 import lombok.Data;
 
 public class Node {
-    Node(int value) {
+    public int value;
+    public Node left;
+    public Node right;
+
+    public Node(int value) {
         this.value = value;
         this.left = null;
         this.right = null;
     }
 
-    int value;
-    Node left;
-    Node right;
+    public Node(int value, Node left, Node right) {
+        this.value = value;
+        this.left = left;
+        this.right = right;
+    }
 
     @Override
     public String toString() {
