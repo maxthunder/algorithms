@@ -4,6 +4,7 @@ import dataStructures.Node;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Queue;
 
 /**
@@ -44,20 +45,21 @@ public class PrintTreeRows {
         root.right.right.left = new Node(8);
         root.right.right.right = new Node(11);
 
+        System.out.println();
         printLevelOrder(root);
     }
 
     public static void printLevelOrder(Node head) {
         if (head != null) {
-            Deque<Node> queue = new ArrayDeque<>();
+            Queue<Node> queue = new LinkedList<>();
             queue.add(head);
-            addNewLineFlag(queue);
+            queue.add(null);
             while (queue.size() > 1) {
-                Node node = queue.removeFirst();
+                Node node = queue.poll();
 
-                if (isNewLine(node)) {// newline
+                if (node == null) {// newline
                     System.out.println();
-                    addNewLineFlag(queue);
+                    queue.add(null);
                 } else {
                     System.out.print(node.value + " ");
                     if (node.left != null)
